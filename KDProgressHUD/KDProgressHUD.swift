@@ -9,7 +9,11 @@
 import Foundation
 import UIKit
 
-class KDProgressHUD: UIView {
+class KDProgressManager {
+    static var views: [KDProgressHUD] = []
+}
+
+public class KDProgressHUD: UIView {
     
     private var label: UILabel!
     private var activity: UIActivityIndicatorView!
@@ -33,11 +37,11 @@ class KDProgressHUD: UIView {
         }
     }
     
-    func setTitle(_ title: String?) {
+    public func setTitle(_ title: String?) {
         label.text = title
     }
     
-    init() {
+    public init() {
         super.init(frame: CGRect(x: UIScreen.main.bounds.size.width / 2 - 50, y: UIScreen.main.bounds.size.height / 2 - 50, width: 100, height: 100))
         
         setup()
@@ -67,16 +71,19 @@ class KDProgressHUD: UIView {
         }
         let progressView = KDProgressHUD()
         progressView.setTitle(title)
-        progressView.frame = CGRect(x: view.frame.size.width / 2 - 50, y: view.frame.size.height / 2 - 50, width: 100, height: 100)
+        progressView.frame = CGRect(x: UIScreen.main.bounds.size.width / 2 - 50, y: UIScreen.main.bounds.size.height / 2 - 50, width: 100, height: 100)
         progressView.tag = 3441
         view.addSubview(progressView)
+        KDProgressManager.views.append(progressView)
     }
     
     public func stop() {
-        removeFromSuperview()
+        for view in KDProgressManager.views {
+            view.removeFromSuperview()
+        }
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -94,10 +101,10 @@ extension UIView {
     }
     
     public func stopProgress() {
-        guard let progressView = viewWithTag(3441) as? KDProgressHUD else {
+        guard let progress = viewWithTag(3441) as? KDProgressHUD else {
             return
         }
-        progressView.removeFromSuperview()
+        progress.stop()
     }
     
 }
