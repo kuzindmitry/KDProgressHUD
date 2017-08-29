@@ -14,6 +14,25 @@ class KDProgressHUD: UIView {
     private var label: UILabel!
     private var activity: UIActivityIndicatorView!
     
+    public class Appearance {
+        
+        public static let progress = Appearance()
+        
+        public var backgroundColor: UIColor
+        public var activityIndicatorTintColor: UIColor
+        public var titleColor: UIColor
+        public var cornerRadius: CGFloat
+        public var textAlignment: NSTextAlignment
+        
+        private init() {
+            backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            titleColor = .white
+            activityIndicatorTintColor = .white
+            cornerRadius = 8
+            textAlignment = .center
+        }
+    }
+    
     func setTitle(_ title: String?) {
         label.text = title
     }
@@ -59,25 +78,6 @@ class KDProgressHUD: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    public class Appearance {
-        
-        public static let progress = Appearance()
-        
-        public var backgroundColor: UIColor
-        public var activityIndicatorTintColor: UIColor
-        public var titleColor: UIColor
-        public var cornerRadius: CGFloat
-        public var textAlignment: NSTextAlignment
-        
-        private init() {
-            backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            titleColor = .white
-            activityIndicatorTintColor = .white
-            cornerRadius = 8
-            textAlignment = .center
-        }
     }
     
 }
