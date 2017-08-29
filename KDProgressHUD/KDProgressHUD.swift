@@ -40,6 +40,21 @@ class KDProgressHUD: UIView {
         addSubview(label)
     }
     
+    public func start(for view: UIView, title: String? = "Loading...") {
+        if let progress = viewWithTag(3441) as? KDProgressHUD {
+            progress.removeFromSuperview()
+        }
+        let progressView = KDProgressHUD()
+        progressView.setTitle(title)
+        progressView.frame = CGRect(x: view.frame.size.width / 2 - 50, y: view.frame.size.height / 2 - 50, width: 100, height: 100)
+        progressView.tag = 3441
+        view.addSubview(progressView)
+    }
+    
+    public func stop() {
+        removeFromSuperview()
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -48,20 +63,13 @@ class KDProgressHUD: UIView {
 
 extension UIView {
     
-    private func progressView(_ title: String?) -> KDProgressHUD {
-        if let progress = viewWithTag(3441) as? KDProgressHUD {
-            progress.removeFromSuperview()
-        }
-        
-        let progressView = KDProgressHUD()
-        progressView.setTitle(title)
-        progressView.frame = CGRect(x: UIScreen.main.bounds.size.width/2 - 50, y: UIScreen.main.bounds.size.height/2 - 50, width: 100, height: 100)
-        progressView.tag = 3441
-        return progressView
+    func createProgress(title: String? = "Loading...") {
+        let progress = KDProgressHUD()
+        progress.start(for: self, title: title)
     }
     
     public func startProgress(_ title: String? = "Loading...") {
-        addSubview(progressView(title))
+        createProgress()
     }
     
     public func stopProgress() {
@@ -75,11 +83,11 @@ extension UIView {
 
 extension UIViewController {
     
-    func startProgress(_ title: String? = "Loading...") {
+    public func startProgress(_ title: String? = "Loading...") {
         view.startProgress(title)
     }
     
-    func stopLoading() {
+    public func stopLoading() {
         view.stopProgress()
     }
     
