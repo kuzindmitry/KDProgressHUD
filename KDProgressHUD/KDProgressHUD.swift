@@ -63,6 +63,9 @@ public class KDProgressHUD: UIView {
         activity.tintColor = Appearance.progress.activityIndicatorTintColor
         label.textColor = Appearance.progress.titleColor
         label.textAlignment = Appearance.progress.textAlignment
+        
+        
+        frame = CGRect(x: UIScreen.main.bounds.size.width / 2 - 50, y: UIScreen.main.bounds.size.height / 2 - 50, width: 100, height: 100)
     }
     
     public func start(for view: UIView, title: String? = "Loading...") {
@@ -71,8 +74,6 @@ public class KDProgressHUD: UIView {
         }
         let progressView = KDProgressHUD()
         progressView.setTitle(title)
-        progressView.frame = CGRect(x: UIScreen.main.bounds.size.width / 2 - 50, y: UIScreen.main.bounds.size.height / 2 - 50, width: 100, height: 100)
-        progressView.tag = 3441
         view.addSubview(progressView)
         KDProgressManager.views.append(progressView)
     }
