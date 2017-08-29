@@ -25,19 +25,21 @@ class KDProgressHUD: UIView {
     }
     
     func setup() {
-        backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        layer.cornerRadius = 8
-        
         activity = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activity.frame = CGRect(x: 32, y: 20, width: 37, height: 37)
         activity.startAnimating()
         addSubview(activity)
         
         label = UILabel(frame: CGRect(x: 5, y: activity.frame.maxY + 12, width: 80, height: 21))
-        label.textColor = .white
         label.textAlignment = .center
         label.text = "Loading..."
         addSubview(label)
+        
+        backgroundColor = Appearance.progress.backgroundColor
+        layer.cornerRadius = Appearance.progress.cornerRadius
+        activity.tintColor = Appearance.progress.activityIndicatorTintColor
+        label.textColor = Appearance.progress.titleColor
+        label.textAlignment = Appearance.progress.textAlignment
     }
     
     public func start(for view: UIView, title: String? = "Loading...") {
@@ -59,11 +61,30 @@ class KDProgressHUD: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public class Appearance {
+        
+        public static let progress = Appearance()
+        
+        public var backgroundColor: UIColor
+        public var activityIndicatorTintColor: UIColor
+        public var titleColor: UIColor
+        public var cornerRadius: CGFloat
+        public var textAlignment: NSTextAlignment
+        
+        private init() {
+            backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            titleColor = .white
+            activityIndicatorTintColor = .white
+            cornerRadius = 8
+            textAlignment = .center
+        }
+    }
+    
 }
 
 extension UIView {
     
-    func createProgress(title: String? = "Loading...") {
+    private func createProgress(title: String? = "Loading...") {
         let progress = KDProgressHUD()
         progress.start(for: self, title: title)
     }
@@ -87,7 +108,7 @@ extension UIViewController {
         view.startProgress(title)
     }
     
-    public func stopLoading() {
+    public func stopProgress() {
         view.stopProgress()
     }
     
